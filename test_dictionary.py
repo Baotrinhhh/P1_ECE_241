@@ -67,38 +67,38 @@ if __name__ == "__main__":
     else:
         print("Your insertion sort does not fully sort the array")
 
-    # print("Test 7: enhanced insertion sort")
-    # dic.shuffle()
-    # if is_sorted(dic.words):
-    #     print("THIS WILL NEVER HAPPEN, IF YOU SAW THIS MESSAGE, CHECK YOUR SHUFFLE METHOD")
-    # else:
-    #     print("Before enhanced insertion sort, the array is unsorted")
-    #
-    # dic.enhancedInsertionSort()
-    # if is_sorted(dic.words):
-    #     print("After enhanced insertion sort, the array is sorted")
-    # else:
-    #     print("Your enhanced insertion sort does not fully sort the array")
-    #
-    # print("Test 8: Spell check")
-    # sentence = "Does cat eat dog?"
-    # sc = dic.spellCheck(sentence)
-    # print("After spell check, the sentence is ``" + sc + "''")
-    # # Excepted: [Does] cat eat [dog?]
-    #
-    # print("Test 9: get anagrams")
-    # sequence = 'tae'
-    # anagrams = dic.anagrams(sequence)
-    # print("Anagrams", anagrams)
-    # # Excepted: ['ate', 'eat', 'tea']
-    # wheels = [
-    #     ['x', 'y', 'c', 's'],
-    #     ['a', 'l', 'i', 'm'],
-    #     ['o', 'm', 's', 'a'],
-    #     ['o', 'x', 'a', 's'],
-    #     ['s', 'm', 'n', 'q']
-    # ]
-    # print("Test 10: crack lock")
-    # combs = dic.crackLock(wheels)
-    # print("Combinations", combs)
-    # # Excepted: ['class', 'simon']
+    print("Test 7: enhanced insertion sort")
+    dic.shuffle()
+    if is_sorted(dic.words):
+        print("THIS WILL NEVER HAPPEN, IF YOU SAW THIS MESSAGE, CHECK YOUR SHUFFLE METHOD")
+    else:
+        print("Before enhanced insertion sort, the array is unsorted")
+
+    dic.enhancedInsertionSort()
+    if is_sorted(dic.words):
+        print("After enhanced insertion sort, the array is sorted")
+    else:
+        print("Your enhanced insertion sort does not fully sort the array")
+
+    print("Test 8: Spell check")
+    sentence = "Does cat eat dog?"
+    sc = dic.spellCheck(sentence)
+    print("After spell check, the sentence is ``" + sc + "''")
+    # Excepted: [Does] cat eat [dog?]
+
+    print("Test 9: get anagrams")
+    sequence = 'tae'
+    anagrams = dic.anagrams(sequence)
+    print("Anagrams", anagrams)
+    # Excepted: ['ate', 'eat', 'tea']
+    wheels = [
+        ['x', 'y', 'c', 's'],
+        ['a', 'l', 'i', 'm'],
+        ['o', 'm', 's', 'a'],
+        ['o', 'x', 'a', 's'],
+        ['s', 'm', 'n', 'q']
+    ]
+    print("Test 10: crack lock")
+    combs = dic.crackLock(wheels)
+    print("Combinations", combs)
+    # Excepted: ['class', 'simon']

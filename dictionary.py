@@ -7,6 +7,7 @@ import random ## NO MORE PACKAGE. ADDITION IMPORT STATEMENT WILL FAIL THE AUTOGR
 
 PUNC =  "’!()-[]{};:’\"\,<>./?@#$%^&*_~’" # this is a constant that you might use in this project.
 
+
 class Dictionary:
     def __init__(self):
         self.words = []  # store all your words here
@@ -30,20 +31,19 @@ class Dictionary:
         return -1
 
     def binarySearch(self, word):
-        def binsearch (l, h, word):
-            while l < h:
-                mid = l + (h - l)//2
-                if self.words[mid] >= word:
-                    h = mid
-                else:
-                    l = mid + 1
-            return l
-        return binsearch(0, len(self.words) - 1, word)
+        return self.binsearch(0, len(self.words) - 1, word)
+
+    def binsearch(self, l, h, word):
+        while l < h:
+            mid = l + (h - l)//2
+            if self.words[mid] >= word:
+                h = mid
+            else:
+                l = mid + 1
+        return l
 
     def insertionSort(self):
-        n = len(self.words)
-
-        for i in range(1, n):
+        for i in range(1, len(self.words)):
             curr = self.words[i]
             idx = i
             while idx > 0 and self.words[idx - 1] > curr:
@@ -52,20 +52,74 @@ class Dictionary:
             self.words[idx] = curr
 
     def enhancedInsertionSort(self):
-
+        for i in range(1, len(self.words)):
+            curr = self.words[i]
+            self.words.pop(i)
+            idx = self.binsearch(0, i, curr)
+            self.insert(curr, idx)
 
     def spellCheck(self, sentence):
-        pass
+        sentence = sentence.split()
+        for i in range(len(sentence)):
+            tmp = sentence[i]
+            if tmp[0] in PUNC:
+                tmp = tmp[1:]
+            if tmp[-1] in PUNC:
+                tmp = tmp[:-1]
+            tmp.lower()
+            check = self.binarySearch(tmp)
+            if self.words[check] != tmp:
+                sentence[i] = "[" + sentence[i] + "]"
+
+        return ' '.join(sentence)
 
     @staticmethod
     def sortSequence(sequence):
         pass
 
     def anagrams(self, sequence):
-        pass
+        def permute(word):
+            if len(word) == 0:
+                return [""]
+
+            permu = permute(word[1:])
+            res = []
+
+            for p in permu:
+                for idx in range(len(p) + 1):
+                    p_copy = p[:idx] + word[0] + p[idx:]
+                    res.append(p_copy)
+            return res
+
+        tmp = permute(sequence)
+        res = []
+        for s in tmp:
+            check = self.binarySearch(s)
+            if self.words[check] == s:
+                res.append(s)
+        return res
+
+
 
     def crackLock(self, wheels):
-        pass
+        combinations = []
+        res = []
+        def backtrack(idx, currS):
+            if len(currS) == 5:
+                combinations.append(currS)
+                return
+            for char in wheels[idx]:
+                backtrack(idx + 1, currS + char)
+
+        backtrack(0, "")
+
+        for combi in combinations:
+            check = self.binarySearch(combi)
+            if self.words[check] == combi:
+                res.append(combi)
+
+        return res
+
 
 
 ## No more testing code in this file
