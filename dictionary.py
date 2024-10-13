@@ -13,7 +13,10 @@ class Dictionary:
         self.words = []  # store all your words here
 
     def insert(self, word, position = -1):
-        self.words.insert(position, word)
+        if position == -1:
+            self.words.append(word)
+        else:
+            self.words.insert(position, word)
 
     def shuffle(self):
         random.shuffle(self.words)
@@ -34,10 +37,10 @@ class Dictionary:
         return self.binsearch(0, len(self.words) - 1, word)
 
     def binsearch(self, l, h, word):
-        while l < h:
-            mid = l + (h - l)//2
+        while l <= h:
+            mid = (l + h) // 2
             if self.words[mid] >= word:
-                h = mid
+                h = mid - 1
             else:
                 l = mid + 1
         return l
@@ -55,11 +58,12 @@ class Dictionary:
         for i in range(1, len(self.words)):
             curr = self.words[i]
             self.words.pop(i)
-            idx = self.binsearch(0, i, curr)
+            idx = self.binsearch(0, i - 1, curr)
             self.insert(curr, idx)
 
     def spellCheck(self, sentence):
         sentence = sentence.split()
+        res = []
         for i in range(len(sentence)):
             tmp = sentence[i]
             if tmp[0] in PUNC:
@@ -68,59 +72,52 @@ class Dictionary:
                 tmp = tmp[:-1]
             tmp.lower()
             check = self.binarySearch(tmp)
-            if self.words[check] != tmp:
-                sentence[i] = "[" + sentence[i] + "]"
+            if check >= len(self.words) or self.words[check] != tmp:
+            # check = self.linearSearch(tmp)
+            # if check == - 1:
+                tmp = '[' + sentence[i] + ']'
+            else:
+                tmp = sentence[i]
 
-        return ' '.join(sentence)
+            res.append(tmp)
+
+        return ' '.join(res)
 
     @staticmethod
     def sortSequence(sequence):
-        pass
+        l = list(sequence)
+        for i in range(1, len(l)):
+            curr = l[i]
+            idx = i
+            while idx > 0 and l[idx - 1] > curr:
+                l[idx] = l[idx - 1]
+                idx -= 1
+            l[idx] = curr
+        return "".join(l)
 
     def anagrams(self, sequence):
-        def permute(word):
-            if len(word) == 0:
-                return [""]
-
-            permu = permute(word[1:])
-            res = []
-
-            for p in permu:
-                for idx in range(len(p) + 1):
-                    p_copy = p[:idx] + word[0] + p[idx:]
-                    res.append(p_copy)
-            return res
-
-        tmp = permute(sequence)
+        check = Dictionary.sortSequence(sequence)
         res = []
-        for s in tmp:
-            check = self.binarySearch(s)
-            if self.words[check] == s:
-                res.append(s)
+
+        for word in self.words:
+            if Dictionary.sortSequence(word) == check:
+                res.append(word)
         return res
-
-
 
     def crackLock(self, wheels):
-        combinations = []
         res = []
-        def backtrack(idx, currS):
-            if len(currS) == 5:
-                combinations.append(currS)
-                return
-            for char in wheels[idx]:
-                backtrack(idx + 1, currS + char)
 
-        backtrack(0, "")
-
-        for combi in combinations:
-            check = self.binarySearch(combi)
-            if self.words[check] == combi:
-                res.append(combi)
+        for w in self.words:
+            if len(w) == len(wheels):
+                check = True
+                for i in range(len(wheels)):
+                    if w[i] not in wheels[i]:
+                        check = False
+                        break
+                if check:
+                    res.append(w)
 
         return res
-
-
 
 ## No more testing code in this file
 ## To modify the testcase, go to test_dictionary.py file.
